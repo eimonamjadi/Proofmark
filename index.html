@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Proofmark</title>
+  <meta name="description" content="See exactly what an AI changed in your writing. Word-level changes you can accept or reject one by one.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Schibsted+Grotesk:wght@500;600;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <h1>Proofmark</h1>
+      <p class="tag">Paste your draft and the AI's edit. Every word it <span class="mark-del">touched</span><span class="mark-ins">changed</span> is marked, and you decide what stays.</p>
+    </header>
+
+    <section class="sources" aria-label="Texts to compare">
+      <div class="source">
+        <div class="src-head">
+          <label for="orig"><span class="sign minus" aria-hidden="true">−</span>Original</label>
+          <span class="count" id="origCount">0 words</span>
+        </div>
+        <textarea id="orig" spellcheck="false" placeholder="Paste your original text"></textarea>
+      </div>
+      <div class="source">
+        <div class="src-head">
+          <label for="edit"><span class="sign plus" aria-hidden="true">+</span>AI-edited</label>
+          <span class="count" id="editCount">0 words</span>
+        </div>
+        <textarea id="edit" spellcheck="false" placeholder="Paste the edited version"></textarea>
+      </div>
+      <div class="src-actions">
+        <span class="badge" id="exampleBadge">Example text</span>
+        <button class="link" id="loadExample" type="button">Load example</button>
+        <button class="link" id="clearBoth" type="button">Clear both</button>
+      </div>
+    </section>
+
+    <section class="galley" aria-label="Changes">
+      <div class="gal-head">
+        <div class="diffstat" aria-label="Word changes">
+          <span class="plus" id="sAdd">+0</span>
+          <span class="minus" id="sDel">−0</span>
+          <span class="unit">words</span>
+          <span class="squares" id="squares" aria-hidden="true"></span>
+        </div>
+        <div class="meta" id="meta"></div>
+        <div class="view" role="group" aria-label="View">
+          <button id="vMarked" type="button" aria-pressed="true">Marked</button>
+          <button id="vClean" type="button" aria-pressed="false">Clean</button>
+        </div>
+      </div>
+      <div class="gal-tools">
+        <div class="bulk">
+          <button class="link" id="accAll" type="button">Accept all open</button>
+          <button class="link" id="rejAll" type="button">Reject all open</button>
+          <button class="link" id="resetAll" type="button">Reset decisions</button>
+        </div>
+        <div class="copy-wrap">
+          <span class="fine">Open changes copy as edited.</span>
+          <button class="primary" id="copy" type="button">Copy result</button>
+        </div>
+      </div>
+      <div class="fallback" id="fallback" hidden>
+        <p>Your browser blocked copying. The text below is selected; press Ctrl+C or ⌘C.</p>
+        <textarea id="fallbackText" readonly></textarea>
+      </div>
+      <div class="prose" id="prose"></div>
+      <div class="review" id="review">
+        <div class="pos"><span id="pos">No changes</span><span class="pill" id="pill" data-state="open">open</span></div>
+        <div class="tally" id="tally"></div>
+        <span class="keys">J/K move · A accept · R reject</span>
+        <div class="ctrls">
+          <button class="nav" id="prev" type="button" aria-label="Previous change">‹</button>
+          <button class="nav" id="next" type="button" aria-label="Next change">›</button>
+          <button class="rej" id="rej" type="button" aria-pressed="false">Reject</button>
+          <button class="acc" id="acc" type="button" aria-pressed="false">Accept</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="tip">
+      <h2>Ask for edits that diff cleanly</h2>
+      <p>Models often rephrase sentences that were already fine, which buries the real fixes. Adding this to your request keeps the list of changes short:</p>
+      <p class="prompt" id="tipText">Edit for clarity, grammar and concision. Make the smallest change that fixes each problem. Keep my wording and sentence structure wherever they already work, and don't rewrite sentences that are fine as they are.</p>
+      <div class="tip-row"><button id="copyTip" type="button">Copy instruction</button></div>
+    </aside>
+
+    <footer class="foot">Runs entirely in your browser. Nothing you paste is uploaded; your last texts are kept only in this browser's local storage.</footer>
+  </div>
+
+  <script src="diff.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

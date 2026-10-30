@@ -1,0 +1,14 @@
+{
+  "name": "proofmark",
+  "version": "1.0.0",
+  "description": "See exactly what an AI changed in your writing: word-level changes you can accept or reject one by one.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test",
+    "start": "npx --yes serve ."
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
